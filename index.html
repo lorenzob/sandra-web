@@ -603,6 +603,189 @@
         }
         .fade-in { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
         .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        /* Slideshow */
+        .slideshow {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 12px;
+            background: var(--bg-secondary);
+            margin: 24px 0;
+        }
+        .slideshow-images {
+            position: relative;
+            width: 100%;
+        }
+        .slideshow-image {
+            width: 100%;
+            height: auto;
+            display: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform var(--transition-base);
+        }
+        .slideshow-image.active {
+            display: block;
+        }
+        .slideshow-image:hover {
+            transform: scale(1.02);
+        }
+        .slideshow-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(59, 130, 246, 0.9);
+            color: white;
+            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            font-size: 28px;
+            font-weight: 300;
+            cursor: pointer;
+            opacity: 0;
+            transition: all var(--transition-base);
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+        .slideshow-arrow.prev {
+            left: 16px;
+        }
+        .slideshow-arrow.next {
+            right: 16px;
+        }
+        .slideshow:hover .slideshow-arrow {
+            opacity: 1;
+        }
+        .slideshow-arrow:hover {
+            background: rgba(59, 130, 246, 1);
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-50%) scale(1.1);
+        }
+        .slideshow-arrow:disabled {
+            opacity: 0 !important;
+            cursor: not-allowed;
+        }
+        .slideshow-arrow:focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 4px;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(10, 14, 20, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity var(--transition-base);
+        }
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+        .lightbox-content {
+            position: relative;
+            max-width: 95vw;
+            max-height: 95vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .lightbox-image {
+            max-width: 100%;
+            max-height: 95vh;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: rgba(59, 130, 246, 0.9);
+            color: white;
+            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+        .lightbox-close:hover {
+            background: rgba(59, 130, 246, 1);
+            box-shadow: var(--shadow-glow);
+            transform: scale(1.1) rotate(90deg);
+        }
+        .lightbox-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(59, 130, 246, 0.9);
+            color: white;
+            border: none;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            font-size: 32px;
+            font-weight: 300;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .lightbox-arrow.prev {
+            left: 32px;
+        }
+        .lightbox-arrow.next {
+            right: 32px;
+        }
+        .lightbox-arrow:hover {
+            background: rgba(59, 130, 246, 1);
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-50%) scale(1.15);
+        }
+        .lightbox-arrow:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        @media (max-width: 768px) {
+            .lightbox-arrow {
+                width: 44px;
+                height: 44px;
+                font-size: 24px;
+            }
+            .lightbox-arrow.prev {
+                left: 16px;
+            }
+            .lightbox-arrow.next {
+                right: 16px;
+            }
+            .lightbox-close {
+                top: 16px;
+                right: 16px;
+                width: 40px;
+                height: 40px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -734,6 +917,15 @@
                     <article class="feature-block">
                         <div class="feature-number">01</div>
                         <h3 class="feature-title">Specification generation from real project materials</h3>
+                        <div class="slideshow" data-slideshow="specs">
+                            <div class="slideshow-images">
+                                <img src="specs1.jpg" class="slideshow-image active" alt="Specification example 1">
+                                <img src="specs2.jpg" class="slideshow-image" alt="Specification example 2">
+                                <img src="specs3.jpg" class="slideshow-image" alt="Specification example 3">
+                            </div>
+                            <button class="slideshow-arrow prev" aria-label="Previous slide">‹</button>
+                            <button class="slideshow-arrow next" aria-label="Next slide">›</button>
+                        </div>
                         <p class="feature-description">Upload manuals, notes, electrical documents, or technical descriptions. Sandra produces structured, customizable specifications aligned with real PLC engineering workflows.</p>
                         <ul class="feature-list">
                             <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>readable</li>
@@ -744,6 +936,14 @@
                     <article class="feature-block">
                         <div class="feature-number">02</div>
                         <h3 class="feature-title">Assisted PLC code generation</h3>
+                        <div class="slideshow" data-slideshow="code">
+                            <div class="slideshow-images">
+                                <img src="code1.jpg" class="slideshow-image" alt="Code example 2">
+                                <img src="code2.jpg" class="slideshow-image" alt="Code example 3">
+                            </div>
+                            <button class="slideshow-arrow prev" aria-label="Previous slide">‹</button>
+                            <button class="slideshow-arrow next" aria-label="Next slide">›</button>
+                        </div>
                         <p class="feature-description">Sandra turns validated specifications into working, reviewable PLC code drafts for Siemens TIA Portal.</p>
                         <div class="code-formats">
                             <span class="code-format">Ladder / KOP</span>
@@ -1038,6 +1238,16 @@
         </div>
     </footer>
 
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightbox-close" aria-label="Close lightbox">×</button>
+        <button class="lightbox-arrow prev" id="lightbox-prev" aria-label="Previous image">‹</button>
+        <div class="lightbox-content">
+            <img class="lightbox-image" id="lightbox-image" src="" alt="">
+        </div>
+        <button class="lightbox-arrow next" id="lightbox-next" aria-label="Next image">›</button>
+    </div>
+
     <script>
         // Mobile menu toggle
         const navToggle = document.querySelector('.nav-toggle');
@@ -1080,6 +1290,130 @@
             entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
         }, { threshold: 0.1 });
         document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // Slideshow functionality
+        document.querySelectorAll('.slideshow').forEach(slideshow => {
+            const images = slideshow.querySelectorAll('.slideshow-image');
+            const prevBtn = slideshow.querySelector('.slideshow-arrow.prev');
+            const nextBtn = slideshow.querySelector('.slideshow-arrow.next');
+            let currentIndex = 0;
+
+            // Hide arrows if no content or only one image
+            if (images.length <= 1) {
+                prevBtn.style.display = 'none';
+                nextBtn.style.display = 'none';
+                return;
+            }
+
+            function updateSlideshow() {
+                images.forEach((img, index) => {
+                    img.classList.toggle('active', index === currentIndex);
+                });
+
+                // Update arrow visibility (no loop - hide at boundaries)
+                prevBtn.disabled = currentIndex === 0;
+                nextBtn.disabled = currentIndex === images.length - 1;
+            }
+
+            prevBtn.addEventListener('click', () => {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateSlideshow();
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (currentIndex < images.length - 1) {
+                    currentIndex++;
+                    updateSlideshow();
+                }
+            });
+
+            // Initialize
+            updateSlideshow();
+        });
+
+        // Lightbox functionality
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightbox-image');
+        const lightboxClose = document.getElementById('lightbox-close');
+        const lightboxPrev = document.getElementById('lightbox-prev');
+        const lightboxNext = document.getElementById('lightbox-next');
+        let currentLightboxSlideshow = null;
+        let currentLightboxImages = [];
+        let currentLightboxIndex = 0;
+
+        function openLightbox(slideshow, imageIndex) {
+            currentLightboxSlideshow = slideshow;
+            currentLightboxImages = Array.from(slideshow.querySelectorAll('.slideshow-image'));
+            currentLightboxIndex = imageIndex;
+            updateLightboxImage();
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function updateLightboxImage() {
+            const img = currentLightboxImages[currentLightboxIndex];
+            lightboxImage.src = img.src;
+            lightboxImage.alt = img.alt;
+
+            // Update arrow states
+            lightboxPrev.disabled = currentLightboxIndex === 0;
+            lightboxNext.disabled = currentLightboxIndex === currentLightboxImages.length - 1;
+        }
+
+        // Add click handler to all slideshow images
+        document.querySelectorAll('.slideshow').forEach(slideshow => {
+            slideshow.querySelectorAll('.slideshow-image').forEach((img, index) => {
+                img.addEventListener('click', () => {
+                    openLightbox(slideshow, index);
+                });
+            });
+        });
+
+        // Lightbox controls
+        lightboxClose.addEventListener('click', closeLightbox);
+
+        lightboxPrev.addEventListener('click', () => {
+            if (currentLightboxIndex > 0) {
+                currentLightboxIndex--;
+                updateLightboxImage();
+            }
+        });
+
+        lightboxNext.addEventListener('click', () => {
+            if (currentLightboxIndex < currentLightboxImages.length - 1) {
+                currentLightboxIndex++;
+                updateLightboxImage();
+            }
+        });
+
+        // Close on background click
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+
+            if (e.key === 'Escape') {
+                closeLightbox();
+            } else if (e.key === 'ArrowLeft' && currentLightboxIndex > 0) {
+                currentLightboxIndex--;
+                updateLightboxImage();
+            } else if (e.key === 'ArrowRight' && currentLightboxIndex < currentLightboxImages.length - 1) {
+                currentLightboxIndex++;
+                updateLightboxImage();
+            }
+        });
     </script>
 </body>
 </html>
