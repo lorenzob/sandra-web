@@ -1252,7 +1252,9 @@
         // Mobile menu toggle
         const navToggle = document.querySelector('.nav-toggle');
         const navMobile = document.querySelector('.nav-mobile');
-        navToggle.addEventListener('click', () => {
+        navToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
             const isOpen = navMobile.classList.toggle('open');
             navToggle.setAttribute('aria-expanded', isOpen);
         });
