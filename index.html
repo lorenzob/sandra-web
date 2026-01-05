@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>Sandra.RUN — AI-Assisted PLC Programming | From Specs to Siemens Code</title>
+    <meta name="description" content="Sandra.RUN transforms industrial automation documentation into structured PLC specifications and Siemens-ready code. AI-assisted workflow for PLC developers and system integrators.">
+    <meta name="keywords" content="PLC programming, Siemens TIA Portal, industrial automation, AI copilot, structured text, ladder logic, SCL, system integrator, automation engineering">
+    <meta name="author" content="Sandra.AI">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://sandra.run/">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sandra.run/">
+    <meta property="og:title" content="Sandra.RUN — AI-Assisted PLC Programming">
+    <meta property="og:description" content="Transform automation specs into working PLC code. AI-assisted workflow for Siemens TIA Portal.">
+    <meta property="og:site_name" content="Sandra.RUN">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Sandra.RUN — AI-Assisted PLC Programming">
+    <meta name="twitter:description" content="Transform automation specs into working PLC code. AI-assisted workflow for Siemens TIA Portal.">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Sandra.RUN",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Web",
+        "description": "AI-assisted workflow for PLC specifications and programming. Transforms industrial automation documentation into structured specifications and Siemens-ready PLC code.",
+        "offers": {
+            "@type": "Offer",
+            "availability": "https://schema.org/LimitedAvailability",
+            "description": "Private Beta"
+        },
+        "creator": {
+            "@type": "Organization",
+            "name": "Sandra.AI",
+            "url": "https://sandra.run"
+        }
+    }
+    </script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%233b82f6'/></svg>">
+    
+    <style>
+        :root {
+            --bg-primary: #0a0e14;
+            --bg-secondary: #111820;
+            --bg-tertiary: #1a222d;
+            --bg-card: #151c25;
+            --bg-card-hover: #1a2231;
+            --accent-primary: #3b82f6;
+            --accent-primary-rgb: 59, 130, 246;
+            --accent-secondary: #06b6d4;
+            --accent-secondary-rgb: 6, 182, 212;
+            --accent-warm: #f59e0b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: #1e293b;
+            --border-hover: #334155;
+            --gradient-primary: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            --gradient-mesh: radial-gradient(ellipse at 20% 0%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+                            radial-gradient(ellipse at 80% 100%, rgba(6, 182, 212, 0.06) 0%, transparent 50%);
+            --header-height: 72px;
+            --section-padding: 120px;
+            --container-max: 1200px;
+            --transition-fast: 0.15s ease;
+            --transition-base: 0.3s ease;
+            --shadow-glow: 0 0 40px rgba(59, 130, 246, 0.3);
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-padding-top: var(--header-height); }
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 16px;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container { max-width: var(--container-max); margin: 0 auto; padding: 0 24px; }
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+        :focus-visible { outline: 2px solid var(--accent-primary); outline-offset: 3px; }
+
+        /* Header */
+        header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(10, 14, 20, 0.92);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            height: var(--header-height);
+        }
+        .header-inner {
+            display: flex; justify-content: space-between; align-items: center;
+            height: 100%; padding: 0 24px; max-width: var(--container-max); margin: 0 auto;
+        }
+        .logo {
+            font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 1.25rem;
+            color: var(--text-primary); text-decoration: none;
+            display: flex; align-items: center; gap: 10px;
+            transition: opacity var(--transition-fast);
+        }
+        .logo:hover { opacity: 0.85; }
+        .logo-dot {
+            width: 10px; height: 10px; background: var(--accent-primary);
+            border-radius: 50%; animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(0.9); }
+        }
+
+        /* Navigation */
+        .nav-desktop { display: flex; align-items: center; gap: 6px; }
+        .nav-link {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;
+            color: var(--text-muted); text-decoration: none;
+            padding: 8px 12px; border-radius: 6px;
+            transition: all var(--transition-fast); letter-spacing: 0.02em;
+        }
+        .nav-link:hover { color: var(--text-primary); background: rgba(255,255,255,0.05); }
+        .nav-cta {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;
+            padding: 10px 20px; background: transparent;
+            border: 1px solid var(--accent-primary); color: var(--accent-primary);
+            border-radius: 6px; text-decoration: none;
+            transition: all var(--transition-base); margin-left: 12px;
+        }
+        .nav-cta:hover { background: var(--accent-primary); color: var(--bg-primary); box-shadow: var(--shadow-glow); }
+
+        .nav-toggle { display: none; background: none; border: none; padding: 8px; cursor: pointer; color: var(--text-primary); }
+        .nav-toggle svg { width: 24px; height: 24px; }
+        .nav-mobile {
+            display: none; position: fixed; top: var(--header-height); left: 0; right: 0;
+            background: var(--bg-secondary); border-bottom: 1px solid var(--border-color);
+            padding: 16px 24px 24px; transform: translateY(-100%); opacity: 0;
+            transition: all var(--transition-base); z-index: 999;
+        }
+        .nav-mobile.open { transform: translateY(0); opacity: 1; }
+        .nav-mobile .nav-link { display: block; padding: 12px 0; font-size: 0.9rem; border-bottom: 1px solid var(--border-color); }
+        .nav-mobile .nav-cta { display: block; text-align: center; margin: 16px 0 0 0; }
+
+        @media (max-width: 1000px) {
+            .nav-desktop { display: none; }
+            .nav-toggle { display: block; }
+            .nav-mobile { display: block; }
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh; display: flex; align-items: center;
+            position: relative; padding-top: var(--header-height); background: var(--gradient-mesh);
+        }
+        .hero::before {
+            content: ''; position: absolute; inset: 0;
+            background-image: linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px);
+            background-size: 60px 60px; pointer-events: none;
+        }
+        .hero-content { position: relative; z-index: 1; max-width: 900px; }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 10px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+            text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-muted);
+            margin-bottom: 32px; padding: 10px 18px;
+            background: var(--bg-secondary); border: 1px solid var(--border-color);
+            border-radius: 100px; animation: fadeInUp 0.8s ease-out;
+        }
+        .badge-dot { width: 6px; height: 6px; background: var(--accent-secondary); border-radius: 50%; }
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 700;
+            line-height: 1.1; margin-bottom: 24px;
+            animation: fadeInUp 0.8s ease-out 0.1s backwards;
+        }
+        .gradient-text {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .hero-description {
+            font-size: 1.25rem; color: var(--text-secondary); max-width: 700px;
+            margin-bottom: 32px; animation: fadeInUp 0.8s ease-out 0.2s backwards;
+        }
+        .hero-principles {
+            display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 48px;
+            animation: fadeInUp 0.8s ease-out 0.3s backwards;
+        }
+        .hero-principle {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;
+            color: var(--text-muted); display: flex; align-items: center; gap: 10px;
+        }
+        .hero-principle .icon { color: var(--accent-primary); flex-shrink: 0; }
+        .hero-cta {
+            display: inline-flex; align-items: center; gap: 12px;
+            font-family: 'JetBrains Mono', monospace; font-size: 1rem;
+            padding: 18px 36px; background: var(--gradient-primary);
+            color: var(--bg-primary); text-decoration: none; border-radius: 8px;
+            font-weight: 600; transition: all var(--transition-base);
+            animation: fadeInUp 0.8s ease-out 0.4s backwards;
+        }
+        .hero-cta:hover { transform: translateY(-3px); box-shadow: var(--shadow-glow); }
+        .hero-cta svg { width: 20px; height: 20px; transition: transform var(--transition-fast); }
+        .hero-cta:hover svg { transform: translateX(4px); }
+        .hero-meta {
+            margin-top: 24px; font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem; color: var(--text-muted);
+            animation: fadeInUp 0.8s ease-out 0.5s backwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Sections */
+        section { padding: var(--section-padding) 0; position: relative; }
+        section:nth-child(even) { background: var(--bg-secondary); }
+        .section-label {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+            text-transform: uppercase; letter-spacing: 0.2em;
+            color: var(--accent-primary); margin-bottom: 16px;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .section-label::before { content: ''; width: 24px; height: 2px; background: var(--accent-primary); }
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem); font-weight: 700;
+            margin-bottom: 24px; line-height: 1.2;
+        }
+        .section-description { font-size: 1.15rem; color: var(--text-secondary); max-width: 700px; margin-bottom: 48px; }
+
+        /* Problem Section */
+        .problem-kicker { color: var(--text-secondary); margin-bottom: 18px; font-weight: 500; }
+        .problem-kicker.spaced { margin-top: 32px; }
+        .problem-list { list-style: none; }
+        .problem-list li {
+            padding: 16px 0 16px 36px; position: relative;
+            color: var(--text-secondary); border-bottom: 1px solid var(--border-color);
+            transition: all var(--transition-fast);
+        }
+        .problem-list li:hover { color: var(--text-primary); padding-left: 40px; }
+        .problem-list li::before {
+            content: '→'; position: absolute; left: 0; top: 16px;
+            color: var(--accent-warm); font-family: 'JetBrains Mono', monospace; font-weight: 600;
+        }
+        .problem-callout {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-left: 4px solid var(--accent-warm);
+            padding: 32px; border-radius: 0 12px 12px 0; margin-top: 48px;
+        }
+        .problem-callout p { color: var(--text-secondary); margin-bottom: 12px; }
+        .problem-callout p:last-child { margin-bottom: 0; }
+        .problem-callout strong { color: var(--text-primary); }
+
+        /* What Is Sandra */
+        .what-content { display: grid; gap: 48px; }
+        .what-intro { font-size: 1.2rem; color: var(--text-secondary); max-width: 800px; }
+        .constraints-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px; margin-top: 32px;
+        }
+        .constraint-item {
+            padding: 20px 24px; background: var(--bg-card);
+            border: 1px solid var(--border-color); border-radius: 8px;
+            font-size: 0.95rem; color: var(--text-secondary);
+            transition: all var(--transition-fast);
+            display: flex; align-items: center; gap: 12px;
+        }
+        .constraint-item:hover { border-color: var(--border-hover); background: var(--bg-card-hover); }
+        .constraint-item.header {
+            background: transparent; border-color: transparent;
+            font-weight: 600; color: var(--text-primary); font-size: 1rem;
+        }
+        .constraint-item .icon { flex-shrink: 0; width: 18px; height: 18px; }
+        .constraint-item .icon.check { color: var(--accent-secondary); }
+        .constraint-item .icon.x { color: var(--text-muted); }
+        .siemens-note {
+            background: var(--bg-tertiary); padding: 24px; border-radius: 8px;
+            margin-top: 32px; border: 1px solid var(--border-color);
+        }
+        .siemens-note p { color: var(--text-secondary); margin-bottom: 8px; }
+        .siemens-note p:last-child { margin-bottom: 0; font-style: italic; color: var(--text-muted); }
+        .what-bottom {
+            font-size: 1.1rem; color: var(--text-primary); padding: 24px;
+            background: linear-gradient(135deg, rgba(59,130,246,0.1) 0%, transparent 100%);
+            border-radius: 8px; border-left: 4px solid var(--accent-primary);
+        }
+
+        /* Features */
+        .features-grid { display: grid; gap: 32px; }
+        .feature-block {
+            padding: 40px; background: var(--bg-card);
+            border: 1px solid var(--border-color); border-radius: 16px;
+            position: relative; overflow: hidden; transition: all var(--transition-base);
+        }
+        .feature-block:hover { border-color: var(--border-hover); transform: translateY(-4px); }
+        .feature-block::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0;
+            height: 4px; background: var(--gradient-primary);
+        }
+        .feature-number {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+            color: var(--accent-primary); margin-bottom: 16px; letter-spacing: 0.1em;
+        }
+        .feature-title { font-size: 1.5rem; font-weight: 600; margin-bottom: 16px; }
+        .feature-description { color: var(--text-secondary); margin-bottom: 16px; }
+        .feature-list { list-style: none; }
+        .feature-list li {
+            padding: 10px 0; color: var(--text-secondary); font-size: 0.95rem;
+            display: flex; align-items: flex-start; gap: 12px;
+        }
+        .feature-list li .icon { flex-shrink: 0; color: var(--accent-secondary); margin-top: 2px; }
+        .code-formats { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+        .code-format {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;
+            padding: 10px 18px; background: var(--bg-secondary);
+            border: 1px solid var(--border-color); border-radius: 6px;
+            color: var(--text-secondary); transition: all var(--transition-fast);
+        }
+        .code-format:hover { border-color: var(--accent-primary); color: var(--accent-primary); }
+
+        /* Vendor Section */
+        .vendor-section {
+            margin-top: 48px; padding: 32px; background: var(--bg-tertiary);
+            border-radius: 16px; border: 1px solid var(--border-color);
+        }
+        .vendor-section h3 {
+            font-size: 1.1rem; margin-bottom: 8px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .vendor-section h3 .icon { color: var(--accent-primary); }
+        .vendor-section > p { color: var(--text-secondary); margin-bottom: 24px; }
+        .vendor-list {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px; list-style: none;
+        }
+        .vendor-list li {
+            padding: 14px 18px; background: var(--bg-card);
+            border: 1px solid var(--border-color); border-radius: 8px;
+            font-size: 0.9rem; color: var(--text-secondary);
+            transition: all var(--transition-fast);
+            display: flex; align-items: center; gap: 10px;
+        }
+        .vendor-list li:hover { border-color: var(--border-hover); transform: translateX(4px); }
+        .vendor-list li .icon { color: var(--accent-primary); flex-shrink: 0; }
+        .vendor-note { margin-top: 20px; font-size: 0.9rem; color: var(--text-muted); font-style: italic; }
+
+        /* Workflow */
+        .workflow-steps { position: relative; }
+        .workflow-steps::before {
+            content: ''; position: absolute; left: 24px; top: 50px; bottom: 50px;
+            width: 2px; background: linear-gradient(to bottom, var(--accent-primary), var(--accent-secondary));
+        }
+        .workflow-step { display: flex; gap: 32px; margin-bottom: 40px; position: relative; }
+        .workflow-step:last-child { margin-bottom: 0; }
+        .step-number {
+            width: 48px; height: 48px; background: var(--bg-secondary);
+            border: 2px solid var(--accent-primary); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;
+            font-weight: 600; color: var(--accent-primary);
+            flex-shrink: 0; z-index: 1; transition: all var(--transition-base);
+        }
+        .workflow-step:hover .step-number { background: var(--accent-primary); color: var(--bg-primary); }
+        .step-content { flex: 1; padding-top: 10px; }
+        .step-content p { color: var(--text-secondary); margin-bottom: 8px; }
+        .step-content strong { color: var(--text-primary); }
+        .step-note { margin-top: 12px; font-size: 0.9rem; color: var(--text-muted); font-style: italic; }
+        .workflow-note {
+            margin-top: 48px; padding: 32px; background: var(--bg-card);
+            border: 1px solid var(--border-color); border-radius: 16px;
+        }
+        .workflow-note h4 {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;
+            color: var(--accent-primary); margin-bottom: 16px;
+        }
+        .workflow-note p { color: var(--text-secondary); margin-bottom: 12px; }
+        .workflow-note p:last-child { margin-bottom: 0; font-weight: 600; color: var(--text-primary); }
+
+        /* Why Different */
+        .diff-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+        .diff-item {
+            padding: 24px; background: var(--bg-card);
+            border: 1px solid var(--border-color); border-radius: 12px;
+            display: flex; align-items: flex-start; gap: 16px;
+            transition: all var(--transition-base);
+        }
+        .diff-item:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+        .diff-icon {
+            width: 44px; height: 44px;
+            background: linear-gradient(135deg, rgba(59,130,246,0.15) 0%, rgba(6,182,212,0.15) 100%);
+            border-radius: 10px; display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; color: var(--accent-primary);
+        }
+        .diff-text { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.5; }
+
+        /* Audience */
+        .audience-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 32px; }
+        .audience-card {
+            padding: 32px; background: var(--bg-card);
+            border: 1px solid var(--border-color); border-radius: 16px;
+            transition: all var(--transition-base);
+        }
+        .audience-card:hover { border-color: var(--border-hover); }
+        .audience-card h3 { font-size: 1.1rem; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+        .audience-card h3 .icon { flex-shrink: 0; }
+        .audience-card.intended h3 { color: var(--accent-secondary); }
+        .audience-card.not-intended h3 { color: var(--text-muted); }
+        .audience-list { list-style: none; }
+        .audience-list li {
+            padding: 14px 0; color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-color);
+            display: flex; align-items: flex-start; gap: 12px;
+        }
+        .audience-list li:last-child { border-bottom: none; }
+        .audience-list li .icon { flex-shrink: 0; margin-top: 2px; }
+        .audience-card.intended .audience-list li .icon { color: var(--accent-secondary); }
+        .audience-card.not-intended .audience-list li .icon { color: var(--text-muted); }
+
+        /* Safety */
+        .safety-content { max-width: 800px; }
+        .safety-list { list-style: none; margin: 32px 0; }
+        .safety-list li {
+            padding: 18px 0 18px 36px; position: relative;
+            color: var(--text-secondary); border-bottom: 1px solid var(--border-color);
+        }
+        .safety-list li .icon { position: absolute; left: 0; top: 18px; }
+        .safety-statement {
+            font-size: 1.2rem; color: var(--text-primary); padding: 28px;
+            background: linear-gradient(135deg, rgba(6,182,212,0.1) 0%, transparent 100%);
+            border-radius: 12px; border-left: 4px solid var(--accent-secondary);
+        }
+        .safety-statement strong { color: var(--accent-secondary); }
+
+        /* FAQ */
+        .faq-grid { display: grid; gap: 24px; }
+        .faq-item {
+            padding: 32px; background: var(--bg-card);
+            border: 1px solid var(--border-color); border-radius: 16px;
+            transition: all var(--transition-base);
+        }
+        .faq-item:hover { border-color: var(--border-hover); }
+        .faq-question {
+            font-size: 1.1rem; font-weight: 600; margin-bottom: 16px;
+            display: flex; align-items: flex-start; gap: 16px;
+        }
+        .faq-q-icon {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;
+            background: var(--accent-primary); color: var(--bg-primary);
+            width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
+            border-radius: 6px; flex-shrink: 0;
+        }
+        .faq-answer { color: var(--text-secondary); padding-left: 44px; }
+        .faq-answer p { margin-bottom: 12px; }
+        .faq-answer p:last-child { margin-bottom: 0; }
+        .faq-answer ul { list-style: none; margin: 12px 0; }
+        .faq-answer ul li { padding: 6px 0 6px 20px; position: relative; }
+        .faq-answer ul li::before {
+            content: ''; position: absolute; left: 0; top: 14px;
+            width: 6px; height: 6px; background: var(--accent-primary); border-radius: 50%;
+        }
+
+        /* Beta */
+        .beta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin-top: 40px; }
+        .beta-card {
+            padding: 32px; background: var(--bg-card);
+            border: 1px solid var(--border-color); border-radius: 16px;
+            transition: all var(--transition-base);
+        }
+        .beta-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+        .beta-card h3 { font-size: 1.1rem; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .beta-card h3 .icon { color: var(--accent-primary); }
+        .beta-card ul { list-style: none; }
+        .beta-card li {
+            padding: 10px 0; color: var(--text-secondary);
+            display: flex; align-items: flex-start; gap: 12px;
+        }
+        .beta-card li .icon { flex-shrink: 0; color: var(--accent-secondary); margin-top: 2px; }
+        .beta-cta { margin-top: 48px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+
+        /* Contact */
+        .contact-section { background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%); }
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
+        .contact-info > p { color: var(--text-secondary); margin-bottom: 16px; }
+        .contact-reasons {
+            list-style: none; margin: 32px 0; padding: 24px;
+            background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px;
+        }
+        .contact-reasons li {
+            padding: 10px 0; color: var(--text-secondary);
+            display: flex; align-items: flex-start; gap: 12px;
+        }
+        .contact-reasons li .icon { color: var(--accent-primary); flex-shrink: 0; margin-top: 2px; }
+        .contact-footer-note { font-size: 0.95rem; color: var(--text-muted); }
+        .contact-footer-note strong { color: var(--text-secondary); }
+        .contact-form-wrapper {
+            padding: 40px; background: var(--bg-card);
+            border: 1px solid var(--border-color); border-radius: 20px;
+        }
+        .contact-form-wrapper h3 { font-size: 1.25rem; margin-bottom: 32px; }
+        .form-group { margin-bottom: 24px; }
+        .form-group label { display: block; font-size: 0.9rem; font-weight: 500; margin-bottom: 8px; color: var(--text-secondary); }
+        .form-group input, .form-group textarea {
+            width: 100%; padding: 14px 18px; background: var(--bg-secondary);
+            border: 1px solid var(--border-color); border-radius: 10px;
+            color: var(--text-primary); font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1rem; transition: all var(--transition-base);
+        }
+        .form-group input:hover, .form-group textarea:hover { border-color: var(--border-hover); }
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none; border-color: var(--accent-primary);
+            box-shadow: 0 0 0 4px rgba(59,130,246,0.1);
+        }
+        .form-group textarea { min-height: 120px; resize: vertical; }
+        .form-hint { font-size: 0.8rem; color: var(--text-muted); margin-top: 8px; }
+        .form-submit {
+            width: 100%; padding: 16px 32px; background: var(--gradient-primary);
+            border: none; border-radius: 10px; color: var(--bg-primary);
+            font-family: 'JetBrains Mono', monospace; font-size: 1rem;
+            font-weight: 600; cursor: pointer; transition: all var(--transition-base);
+        }
+        .form-submit:hover { transform: translateY(-2px); box-shadow: var(--shadow-glow); }
+
+        /* Next Steps */
+        .next-steps {
+            margin-top: 48px; padding: 32px; background: var(--bg-tertiary);
+            border-radius: 16px; border: 1px solid var(--border-color);
+        }
+        .next-steps h4 { font-size: 1rem; margin-bottom: 16px; }
+        .next-steps > p { color: var(--text-secondary); margin-bottom: 16px; }
+        .next-steps ul { list-style: none; margin-bottom: 24px; }
+        .next-steps li { padding: 8px 0; color: var(--text-secondary); display: flex; align-items: center; gap: 12px; }
+        .next-steps li::before { content: ''; width: 6px; height: 6px; background: var(--accent-primary); border-radius: 50%; }
+        .next-steps-footer { font-size: 0.9rem; color: var(--text-muted); }
+        .next-steps-footer p { margin-bottom: 4px; }
+
+        /* Footer */
+        footer { background: var(--bg-primary); border-top: 1px solid var(--border-color); padding: 64px 0 32px; }
+        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; }
+        .footer-disclaimer {
+            padding: 24px; background: var(--bg-secondary);
+            border: 1px solid var(--border-color); border-radius: 12px;
+        }
+        .footer-disclaimer h4 {
+            font-size: 0.9rem; color: var(--accent-warm); margin-bottom: 12px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .footer-disclaimer p { font-size: 0.9rem; color: var(--text-muted); }
+        .footer-privacy {
+            padding: 24px; background: var(--bg-secondary);
+            border: 1px solid var(--border-color); border-radius: 12px;
+        }
+        .footer-privacy h4 { font-size: 0.9rem; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .footer-privacy h4 .icon { color: var(--accent-primary); }
+        .footer-privacy p { font-size: 0.9rem; color: var(--text-muted); }
+        .footer-about { color: var(--text-secondary); font-size: 0.95rem; }
+        .footer-about p { margin-bottom: 8px; }
+        .footer-bottom {
+            margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border-color);
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;
+        }
+        .footer-logo {
+            font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 1.1rem;
+            color: var(--text-primary); text-decoration: none;
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        .footer-legal { font-size: 0.8rem; color: var(--text-muted); }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            :root { --section-padding: 80px; }
+            .contact-grid { grid-template-columns: 1fr; }
+            .audience-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .hero-principles { flex-direction: column; gap: 12px; }
+            .workflow-steps::before { display: none; }
+            .workflow-step { flex-direction: column; gap: 16px; }
+            .contact-form-wrapper { padding: 24px; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+        }
+
+        /* Animations */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.001ms !important;
+                transition-duration: 0.001ms !important;
+            }
+        }
+        .fade-in { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <a href="#hero" class="logo" aria-label="Sandra.RUN Home">
+                <span class="logo-dot" aria-hidden="true"></span>
+                Sandra.RUN
+            </a>
+            <nav class="nav-desktop" aria-label="Main navigation">
+                <a href="#problem" class="nav-link">Problem</a>
+                <a href="#what-is-sandra" class="nav-link">What is Sandra</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#how-it-works" class="nav-link">Workflow</a>
+                <a href="#who" class="nav-link">Audience</a>
+                <a href="#faq" class="nav-link">FAQ</a>
+                <a href="#contact" class="nav-cta">Apply for Beta</a>
+            </nav>
+            <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+            </button>
+        </div>
+        <nav class="nav-mobile" aria-label="Mobile navigation">
+            <a href="#problem" class="nav-link">Problem</a>
+            <a href="#what-is-sandra" class="nav-link">What is Sandra</a>
+            <a href="#features" class="nav-link">Features</a>
+            <a href="#how-it-works" class="nav-link">Workflow</a>
+            <a href="#who" class="nav-link">Audience</a>
+            <a href="#faq" class="nav-link">FAQ</a>
+            <a href="#contact" class="nav-cta">Apply for Beta</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero -->
+        <section class="hero" id="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <span class="badge-dot" aria-hidden="true"></span>
+                        Private beta · Siemens-first · For experienced PLC developers
+                    </div>
+                    <h1><span class="gradient-text">From automation specs</span> to working PLC code</h1>
+                    <p class="hero-description">Sandra helps PLC developers transform real-world documentation into structured specifications and Siemens-ready PLC programs — faster, traceable, and under human control.</p>
+                    <div class="hero-principles">
+                        <span class="hero-principle">
+                            <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                            Vendor-agnostic by architecture
+                        </span>
+                        <span class="hero-principle">
+                            <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                            Human-in-the-loop by design
+                        </span>
+                    </div>
+                    <a href="#contact" class="hero-cta">
+                        Apply for the Private Beta
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                    <p class="hero-meta">Private beta · Siemens TIA Portal · For system integrators</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problem -->
+        <section id="problem" class="fade-in">
+            <div class="container">
+                <span class="section-label">Problem</span>
+                <h2 class="section-title">PLC projects don't fail because of logic.</h2>
+                <p class="section-description">They fail because developers are accountable for systems built on unclear inputs.</p>
+                <p class="problem-kicker">In real industrial automation projects:</p>
+                <ul class="problem-list">
+                    <li>documentation is spread across PDFs, emails, spreadsheets, and informal notes</li>
+                    <li>functional requirements are often implicit or partially defined</li>
+                    <li>electrical, mechanical, and software assumptions are mixed together</li>
+                    <li>changes happen late, without a single source of truth</li>
+                </ul>
+                <p class="problem-kicker spaced">As a result:</p>
+                <ul class="problem-list">
+                    <li>senior PLC developers spend time reconstructing intent instead of programming</li>
+                    <li>similar PLC logic is rewritten project after project</li>
+                    <li>reviews and validation happen late in the process</li>
+                    <li>developers remain responsible for system behavior, even when inputs are unclear</li>
+                </ul>
+                <div class="problem-callout">
+                    <p><strong>Generic AI tools don't solve this.</strong></p>
+                    <p>They can generate text or code, but they don't understand real industrial documentation, traceability and review requirements, and the need for deterministic, verifiable PLC programs.</p>
+                    <p style="margin-top: 14px;"><strong>Traditional PLC tools don't solve it either.</strong></p>
+                    <p>They assume that structured specifications already exist.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- What Is Sandra -->
+        <section id="what-is-sandra" class="fade-in">
+            <div class="container">
+                <span class="section-label">Positioning</span>
+                <h2 class="section-title">What Sandra is — and what it is not</h2>
+                <div class="what-content">
+                    <div>
+                        <p class="what-intro">Sandra.RUN is an AI-assisted workflow for PLC specifications and programming — designed for real industrial projects, not demos.</p>
+                        <div class="constraints-grid">
+                            <div class="constraint-item header">What Sandra is</div>
+                            <div class="constraint-item"><svg class="icon check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>AI-assisted workflow for specifications and PLC programming</div>
+                            <div class="constraint-item"><svg class="icon check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Built for traceability, review, and validation</div>
+                            <div class="constraint-item"><svg class="icon check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Integrated into existing engineering workflows</div>
+                            <div class="constraint-item"><svg class="icon check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Accelerates engineers without replacing responsibility</div>
+                            <div class="constraint-item header" style="margin-top: 16px;">What Sandra is not</div>
+                            <div class="constraint-item"><svg class="icon x" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Not a generic AI chat or prompt-based assistant</div>
+                            <div class="constraint-item"><svg class="icon x" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Not black-box PLC code generation</div>
+                            <div class="constraint-item"><svg class="icon x" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Not low-code / no-code automation</div>
+                            <div class="constraint-item"><svg class="icon x" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Not a way to bypass review or accountability</div>
+                        </div>
+                        <div class="siemens-note">
+                            <p>The private beta starts Siemens-first to ensure depth, correctness, and real-world validation.</p>
+                            <p>This is a methodological choice — not a long-term limitation.</p>
+                        </div>
+                    </div>
+                    <div class="what-bottom">Sandra helps engineers start projects faster, while keeping full visibility and control over specifications and PLC code.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section id="features" class="fade-in">
+            <div class="container">
+                <span class="section-label">Private Beta</span>
+                <h2 class="section-title">What Sandra does today</h2>
+                <div class="features-grid">
+                    <article class="feature-block">
+                        <div class="feature-number">01</div>
+                        <h3 class="feature-title">Specification generation from real project materials</h3>
+                        <p class="feature-description">Upload manuals, notes, electrical documents, or technical descriptions. Sandra produces structured, customizable specifications aligned with real PLC engineering workflows.</p>
+                        <ul class="feature-list">
+                            <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>readable</li>
+                            <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>reviewable</li>
+                            <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>directly usable as a foundation for PLC development</li>
+                        </ul>
+                    </article>
+                    <article class="feature-block">
+                        <div class="feature-number">02</div>
+                        <h3 class="feature-title">Assisted PLC code generation</h3>
+                        <p class="feature-description">Sandra turns validated specifications into working, reviewable PLC code drafts for Siemens TIA Portal.</p>
+                        <div class="code-formats">
+                            <span class="code-format">Ladder / KOP</span>
+                            <span class="code-format">SCL / Structured Text</span>
+                        </div>
+                        <ul class="feature-list" style="margin-top: 20px;">
+                            <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>engineer review</li>
+                            <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>compilation and testing inside existing PLC environments</li>
+                        </ul>
+                    </article>
+                </div>
+                <div class="vendor-section">
+                    <h3><svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Planned vendor support</h3>
+                    <p>Sandra is designed around a vendor-agnostic PLC workflow. Planned extensions:</p>
+                    <ul class="vendor-list">
+                        <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>Siemens</li>
+                        <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>Rockwell (Allen-Bradley)</li>
+                        <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>Beckhoff (TwinCAT)</li>
+                        <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>CODESYS</li>
+                        <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>Omron</li>
+                        <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>Schneider Electric</li>
+                    </ul>
+                    <p class="vendor-note">Vendor support will be introduced progressively after Siemens-based validation.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Workflow -->
+        <section id="how-it-works" class="fade-in">
+            <div class="container">
+                <span class="section-label">Workflow</span>
+                <h2 class="section-title">How Sandra works</h2>
+                <p class="section-description">From real project inputs to structured specifications and PLC code — with engineers in control.</p>
+                <div class="workflow-steps">
+                    <div class="workflow-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <p><strong>Start from real project material</strong></p>
+                            <p>PDFs and technical documentation, electrical schematics and I/O lists, emails and notes.</p>
+                            <p class="step-note">No templates to fill upfront. No artificial constraints.</p>
+                        </div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <p><strong>Structure specifications explicitly</strong></p>
+                            <p>Sandra extracts and organizes I/O definitions, functional behavior, assumptions, and PLC logic blocks.</p>
+                            <p class="step-note">Specifications are generated in a structured, reviewable format.</p>
+                        </div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <p><strong>Generate reviewable PLC code</strong></p>
+                            <p>From specifications, Sandra produces deterministic, readable PLC programs aligned with Siemens TIA Portal.</p>
+                            <p class="step-note">Code is generated from explicit specifications — not inferred intent.</p>
+                        </div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <p><strong>Keep humans in control</strong></p>
+                            <p>Engineers review specifications, inspect generated logic, and validate assumptions before deployment.</p>
+                            <p class="step-note">Sandra accelerates — it doesn't replace engineering judgment.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="workflow-note">
+                    <h4>// Key principle</h4>
+                    <p>Every output is designed to be reviewed by qualified professionals.</p>
+                    <p>Final responsibility always remains with the engineer.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Different -->
+        <section id="why-different" class="fade-in">
+            <div class="container">
+                <span class="section-label">Differentiation</span>
+                <h2 class="section-title">Why Sandra is different</h2>
+                <div class="diff-grid">
+                    <div class="diff-item">
+                        <div class="diff-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+                        <span class="diff-text">Specification-first, not prompt-to-code</span>
+                    </div>
+                    <div class="diff-item">
+                        <div class="diff-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+                        <span class="diff-text">Vendor-agnostic architecture</span>
+                    </div>
+                    <div class="diff-item">
+                        <div class="diff-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg></div>
+                        <span class="diff-text">Human-in-the-loop by default</span>
+                    </div>
+                    <div class="diff-item">
+                        <div class="diff-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
+                        <span class="diff-text">Outputs designed for engineering review</span>
+                    </div>
+                    <div class="diff-item">
+                        <div class="diff-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                        <span class="diff-text">Optimized for trust and correctness</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Audience -->
+        <section id="who" class="fade-in">
+            <div class="container">
+                <span class="section-label">Audience</span>
+                <h2 class="section-title">Who it's for</h2>
+                <div class="audience-grid">
+                    <article class="audience-card intended">
+                        <h3><svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Sandra is intended for:</h3>
+                        <ul class="audience-list">
+                            <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>PLC programmers in Siemens-based environments</li>
+                            <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>system integrators delivering automation projects</li>
+                            <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>automation engineers responsible for code quality</li>
+                            <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>technical leads managing PLC workflows</li>
+                        </ul>
+                    </article>
+                    <article class="audience-card not-intended">
+                        <h3><svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>Not intended for:</h3>
+                        <ul class="audience-list">
+                            <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>non-technical users</li>
+                            <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>autonomous PLC deployment</li>
+                            <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>bypassing engineering responsibility</li>
+                        </ul>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Safety -->
+        <section id="safety" class="fade-in">
+            <div class="container">
+                <span class="section-label">Safety & Responsibility</span>
+                <h2 class="section-title">Designed for safety and accountability</h2>
+                <div class="safety-content">
+                    <ul class="safety-list">
+                        <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>No autonomous execution</li>
+                        <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>No direct deployment to running PLCs</li>
+                        <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>All outputs must be reviewed by qualified professionals</li>
+                        <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Final responsibility always remains with the engineer</li>
+                    </ul>
+                    <div class="safety-statement"><strong>Sandra assists engineering judgment.</strong><br>It does not replace it.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq" class="fade-in">
+            <div class="container">
+                <span class="section-label">FAQ</span>
+                <h2 class="section-title">Frequently asked questions</h2>
+                <div class="faq-grid">
+                    <article class="faq-item">
+                        <h3 class="faq-question"><span class="faq-q-icon">Q</span>Is Sandra a "prompt-to-PLC-code" tool?</h3>
+                        <div class="faq-answer">
+                            <p>No. Sandra follows a specification-first workflow: documentation → structured specifications → reviewable PLC code drafts. Human review is mandatory at every step.</p>
+                        </div>
+                    </article>
+                    <article class="faq-item">
+                        <h3 class="faq-question"><span class="faq-q-icon">Q</span>Does Sandra generate production-ready code?</h3>
+                        <div class="faq-answer">
+                            <p>Sandra generates working, reviewable PLC code drafts. All outputs must be compiled, tested, and validated inside the engineer's standard PLC environment.</p>
+                        </div>
+                    </article>
+                    <article class="faq-item">
+                        <h3 class="faq-question"><span class="faq-q-icon">Q</span>Which PLC vendors does Sandra support?</h3>
+                        <div class="faq-answer">
+                            <p>The private beta focuses on Siemens TIA Portal. The vendor-agnostic architecture will extend to Rockwell, Beckhoff, CODESYS, Omron, and Schneider Electric.</p>
+                        </div>
+                    </article>
+                    <article class="faq-item">
+                        <h3 class="faq-question"><span class="faq-q-icon">Q</span>Can Sandra deploy or modify PLCs automatically?</h3>
+                        <div class="faq-answer"><p>No. Sandra does not deploy code or execute autonomous changes.</p></div>
+                    </article>
+                    <article class="faq-item">
+                        <h3 class="faq-question"><span class="faq-q-icon">Q</span>Is my project data used to train public models?</h3>
+                        <div class="faq-answer"><p>No. Private project data is not used to train public or third-party models.</p></div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Beta -->
+        <section id="beta" class="fade-in">
+            <div class="container">
+                <span class="section-label">Built for real projects</span>
+                <h2 class="section-title">Built for real industrial PLC workflows</h2>
+                <p class="section-description">Sandra is being developed and tested with experienced PLC developers on real Siemens TIA Portal projects.</p>
+                <div class="beta-grid">
+                    <div class="beta-card">
+                        <h3><svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>What we focus on</h3>
+                        <ul>
+                            <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>deterministic behavior and reviewable PLC logic</li>
+                            <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>traceability from inputs to specifications to code</li>
+                            <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>human review inside existing engineering environments</li>
+                        </ul>
+                    </div>
+                    <div class="beta-card">
+                        <h3><svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Private beta scope</h3>
+                        <ul>
+                            <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Siemens-first (TIA Portal)</li>
+                            <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>real, non-synthetic projects</li>
+                            <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>direct feedback loops with the product team</li>
+                            <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>limited access to keep feedback actionable</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="beta-cta">
+                    <a href="#contact" class="hero-cta">Apply for the Private Beta<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                    <p class="hero-meta">Private beta · Siemens-first · For experienced PLC developers and system integrators</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section id="contact" class="contact-section fade-in">
+            <div class="container">
+                <span class="section-label">Contact / Early Access</span>
+                <h2 class="section-title">Get in touch</h2>
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <p>Sandra is currently available through a limited private beta.</p>
+                        <p>If you are working on real industrial automation projects and want to:</p>
+                        <ul class="contact-reasons">
+                            <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>understand whether Sandra fits your PLC workflow</li>
+                            <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>discuss a concrete use case</li>
+                            <li><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>explore early access or the vendor roadmap</li>
+                        </ul>
+                        <p>you can contact us directly.</p>
+                        <p class="contact-footer-note"><strong>We read every message.</strong><br>Technical context is appreciated.</p>
+                    </div>
+                    <div class="contact-form-wrapper">
+                        <h3>Contact form</h3>
+                        <form id="contact-form">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Work email</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <textarea id="message" name="message" required></textarea>
+                                <p class="form-hint">(Briefly describe your context, PLC environment, or what you'd like to discuss.)</p>
+                            </div>
+                            <button type="submit" class="form-submit">Send message</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="next-steps">
+                    <h4>What happens next</h4>
+                    <p>We typically reply within a few working days. Depending on context, we may:</p>
+                    <ul>
+                        <li>ask for a bit more technical detail</li>
+                        <li>suggest applying to the private beta</li>
+                        <li>propose a short exploratory call</li>
+                    </ul>
+                    <div class="next-steps-footer"><p>No sales pressure.</p><p>No automated follow-ups.</p></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-disclaimer">
+                    <h4><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Beta disclaimer</h4>
+                    <p>Sandra is an experimental product in active development. All generated outputs must be reviewed, validated, and tested by qualified professionals before real-world use.</p>
+                </div>
+                <div class="footer-privacy">
+                    <h4><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Privacy</h4>
+                    <p>Private project data is not used to train public models.</p>
+                </div>
+                <div class="footer-about">
+                    <p>Sandra is an AI assistant for PLC developers working across industrial automation environments, including Siemens, Rockwell Automation, Beckhoff, CODESYS-based platforms, Omron, and Schneider Electric.</p>
+                    <p>The current private beta focuses on Siemens TIA Portal projects.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <a href="#hero" class="footer-logo"><span class="logo-dot"></span>Sandra.RUN</a>
+                <div class="footer-legal">
+                    <a href="privacy-policy.html" style="color: var(--text-muted); text-decoration: none; margin-right: 16px; transition: color 0.15s ease;">Privacy Policy</a>
+                    <span>© 2026 Marco Porcaro · All rights reserved</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const navToggle = document.querySelector('.nav-toggle');
+        const navMobile = document.querySelector('.nav-mobile');
+        navToggle.addEventListener('click', () => {
+            const isOpen = navMobile.classList.toggle('open');
+            navToggle.setAttribute('aria-expanded', isOpen);
+        });
+        // Close mobile menu on link click
+        document.querySelectorAll('.nav-mobile .nav-link, .nav-mobile .nav-cta').forEach(link => {
+            link.addEventListener('click', () => {
+                navMobile.classList.remove('open');
+                navToggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+        // Smooth scroll with header offset
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (!href || href === '#') return;
+                const target = document.querySelector(href);
+                if (!target) return;
+                e.preventDefault();
+                const headerHeight = document.querySelector('header').offsetHeight;
+                const targetPos = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
+                window.scrollTo({ top: Math.max(targetPos, 0), behavior: 'smooth' });
+            });
+        });
+        // Form handler
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('button[type="submit"]');
+            const prev = btn.textContent;
+            btn.textContent = 'Sent (demo)';
+            btn.disabled = true;
+            setTimeout(() => { btn.textContent = prev; btn.disabled = false; }, 2000);
+        });
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
