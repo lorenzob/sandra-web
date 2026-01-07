@@ -629,6 +629,7 @@
             border-radius: 12px;
             cursor: pointer;
             transition: transform var(--transition-base);
+            position: relative;
         }
         .slideshow-image.active {
             display: block;
@@ -650,6 +651,7 @@
             font-weight: 300;
             cursor: pointer;
             opacity: 0;
+            pointer-events: none;
             transition: all var(--transition-base);
             z-index: 10;
             display: flex;
@@ -665,6 +667,7 @@
         }
         .slideshow:hover .slideshow-arrow {
             opacity: 1;
+            pointer-events: auto;
         }
         .slideshow-arrow:hover {
             background: rgba(59, 130, 246, 1);
@@ -673,7 +676,7 @@
         }
         .slideshow-arrow:disabled {
             opacity: 0 !important;
-            cursor: not-allowed;
+            pointer-events: none;
         }
         .slideshow-arrow:focus-visible {
             outline: 2px solid var(--accent-primary);
@@ -772,6 +775,36 @@
             opacity: 0.3;
             cursor: not-allowed;
         }
+
+        /* Tooltip */
+        [data-tooltip] {
+            position: relative;
+        }
+        [data-tooltip]::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            top: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(15, 23, 42, 0.95);
+            color: var(--text-primary);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity var(--transition-base);
+            z-index: 100;
+            border: 1px solid var(--border-hover);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+        }
+        [data-tooltip]:hover::after {
+            opacity: 1;
+        }
+
         @media (max-width: 768px) {
             .lightbox-arrow {
                 width: 44px;
@@ -845,6 +878,12 @@
                             Human-in-the-loop by design
                         </span>
                     </div>
+                    <div class="slideshow">
+                        <div class="slideshow-images">
+                            <img src="code0.jpg" class="slideshow-image active" alt="Editor view">
+                        </div>
+                    </div>
+
                     <a href="#contact" class="hero-cta">
                         Apply for the Private Beta
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -925,10 +964,10 @@
                         <h3 class="feature-title">Specification generation from real project materials</h3>
                         <div class="slideshow" data-slideshow="specs">
                             <div class="slideshow-images">
-                                <img src="specs1.jpg" class="slideshow-image active" alt="Specification example 1">
-                                <img src="specs2.jpg" class="slideshow-image" alt="Specification example 2">
-                                <img src="specs3.jpg" class="slideshow-image" alt="Specification example 3">
-                                <img src="specs4.jpg" class="slideshow-image" alt="Specification example 4">
+                                <img src="specs1.jpg" class="slideshow-image active" alt="Specification example 1" data-tooltip="IO list">
+                                <img src="specs2.jpg" class="slideshow-image" alt="Specification example 2" data-tooltip="Design Specs - Software objects">
+                                <img src="specs3.jpg" class="slideshow-image" alt="Specification example 3" data-tooltip="Design Specs - Timing diagram">
+                                <img src="specs4.jpg" class="slideshow-image" alt="Specification example 4" data-tooltip="Design Specs - Flow diagram">
                             </div>
                             <button class="slideshow-arrow prev" aria-label="Previous slide">‹</button>
                             <button class="slideshow-arrow next" aria-label="Next slide">›</button>
@@ -945,9 +984,8 @@
                         <h3 class="feature-title">Assisted PLC code generation</h3>
                         <div class="slideshow" data-slideshow="code">
                             <div class="slideshow-images">
-                                <img src="code1.jpg" class="slideshow-image" alt="Code example 1">
-                                <img src="code2.jpg" class="slideshow-image" alt="Code example 2">
-                                <img src="code3.jpg" class="slideshow-image" alt="Code example 3">
+                                <img src="code1.jpg" class="slideshow-image" alt="Code example 1" data-tooltip="Code editor - Ladder code">
+                                <img src="code2.jpg" class="slideshow-image" alt="Code example 2" data-tooltip="Code editor - DB editor">
                             </div>
                             <button class="slideshow-arrow prev" aria-label="Previous slide">‹</button>
                             <button class="slideshow-arrow next" aria-label="Next slide">›</button>
@@ -1344,6 +1382,11 @@
             const nextBtn = slideshow.querySelector('.slideshow-arrow.next');
             let currentIndex = 0;
 
+            // Skip slideshow navigation if no arrows (single image slideshow)
+            if (!prevBtn || !nextBtn) {
+                return;
+            }
+
             // Hide arrows if no content or only one image
             if (images.length <= 1) {
                 prevBtn.style.display = 'none';
@@ -1408,9 +1451,16 @@
             lightboxImage.src = img.src;
             lightboxImage.alt = img.alt;
 
-            // Update arrow states
-            lightboxPrev.disabled = currentLightboxIndex === 0;
-            lightboxNext.disabled = currentLightboxIndex === currentLightboxImages.length - 1;
+            // Hide arrows if only one image, otherwise update states
+            if (currentLightboxImages.length <= 1) {
+                lightboxPrev.style.display = 'none';
+                lightboxNext.style.display = 'none';
+            } else {
+                lightboxPrev.style.display = '';
+                lightboxNext.style.display = '';
+                lightboxPrev.disabled = currentLightboxIndex === 0;
+                lightboxNext.disabled = currentLightboxIndex === currentLightboxImages.length - 1;
+            }
         }
 
         // Add click handler to all slideshow images
@@ -1419,6 +1469,63 @@
                 img.addEventListener('click', () => {
                     openLightbox(slideshow, index);
                 });
+            });
+        });
+
+        // Tooltip functionality
+        const tooltip = document.createElement('div');
+        tooltip.style.cssText = `
+            position: fixed;
+            background: rgba(15, 23, 42, 0.95);
+            color: #f1f5f9;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 1000;
+            border: 1px solid #334155;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        `;
+        document.body.appendChild(tooltip);
+
+        let tooltipTimeout = null;
+        let lastMouseX = 0;
+        let lastMouseY = 0;
+
+        document.querySelectorAll('[data-tooltip]').forEach(element => {
+            element.addEventListener('mouseenter', (e) => {
+                const text = element.getAttribute('data-tooltip');
+                tooltip.textContent = text;
+            });
+
+            element.addEventListener('mousemove', (e) => {
+                // Save cursor position
+                lastMouseX = e.clientX;
+                lastMouseY = e.clientY;
+
+                // Clear previous timeout
+                clearTimeout(tooltipTimeout);
+
+                // Hide tooltip while moving
+                tooltip.style.opacity = '0';
+
+                // Show tooltip after mouse stops for 500ms
+                tooltipTimeout = setTimeout(() => {
+                    // Set position only when showing
+                    tooltip.style.left = lastMouseX + 'px';
+                    tooltip.style.top = (lastMouseY - 50) + 'px';
+                    tooltip.style.opacity = '1';
+                }, 500);
+            });
+
+            element.addEventListener('mouseleave', () => {
+                clearTimeout(tooltipTimeout);
+                tooltip.style.opacity = '0';
             });
         });
 
