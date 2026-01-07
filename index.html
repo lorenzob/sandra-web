@@ -151,8 +151,9 @@
             background: var(--bg-secondary); border-bottom: 1px solid var(--border-color);
             padding: 16px 24px 24px; transform: translateY(-100%); opacity: 0;
             transition: all var(--transition-base); z-index: 999;
+            pointer-events: none;
         }
-        .nav-mobile.open { transform: translateY(0); opacity: 1; }
+        .nav-mobile.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
         .nav-mobile .nav-link { display: block; padding: 12px 0; font-size: 0.9rem; border-bottom: 1px solid var(--border-color); }
         .nav-mobile .nav-cta { display: block; text-align: center; margin: 16px 0 0 0; }
 
